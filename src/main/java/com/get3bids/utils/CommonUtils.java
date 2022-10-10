@@ -1,4 +1,4 @@
-package com.get3bids.scrappers.utils;
+package com.get3bids.utils;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

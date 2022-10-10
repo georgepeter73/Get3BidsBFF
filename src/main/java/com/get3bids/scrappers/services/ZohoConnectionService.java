@@ -5,7 +5,7 @@ import com.get3bids.exception.Get3BidsException;
 import com.get3bids.scrappers.cofig.ZohoConfig;
 import com.get3bids.scrappers.dti.zoho.HttpResult;
 import com.get3bids.scrappers.dti.zoho.TokenRefreshResponse;
-import com.get3bids.scrappers.utils.CommonUtils;
+import com.get3bids.utils.CommonUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;

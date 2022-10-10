@@ -1,6 +1,6 @@
 package com.get3bids.scrappers.services;
 
-import com.get3bids.scrappers.utils.CommonUtils;
+import com.get3bids.utils.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

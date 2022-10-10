@@ -4,12 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.get3bids.scrappers.cofig.ZohoConfig;
 import com.get3bids.scrappers.dti.outscraper.GoogleMapSearchItem;
 import com.get3bids.scrappers.dti.zoho.*;
-import com.get3bids.scrappers.utils.CommonUtils;
+import com.get3bids.utils.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 @Slf4j
