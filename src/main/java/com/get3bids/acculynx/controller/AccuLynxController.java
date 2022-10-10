@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AccuLynxController {
     @PostMapping("/api/v1/test")
-    public void test(){
-       log.info("***API Called***");
+    public void test(String firstName,String lastName,String email){
+       log.info("***API Called*** "+firstName+" "+lastName+" "+email);
     }
 }
