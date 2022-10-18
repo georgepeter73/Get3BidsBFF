@@ -9,7 +9,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -20,6 +25,7 @@ public class ZohoService {
     ZohoConfig zohoConfig;
     @Autowired
     GoogleScrapperService googleScrapperService;
+
 
     public Users getUsers()throws JsonProcessingException {
         Users users = null;
@@ -72,6 +78,52 @@ public class ZohoService {
             }else{
                 log.info("Zoho access token could be expired.");
             }
+        }catch(Exception ex){
+            log.error(CommonUtils.getExceptionMessage(ex));
+        }
+        return true;
+
+    }
+    private String escapeSpecialCharacters(String data) {
+        String escapedData = "";
+        if(data!=null) {
+            escapedData = data.replaceAll("\\R", " ");
+            if (data.contains(",") || data.contains("\"") || data.contains("'")) {
+                data = data.replace("\"", "\"\"");
+                escapedData = "\"" + data + "\"";
+            }
+        }
+        return escapedData;
+    }
+
+    private void printToCSV(List<String[]> dataLines,File csvFile) throws IOException {
+        try (PrintWriter pw = new PrintWriter(csvFile)) {
+            dataLines.stream()
+                    .map(this::convertToCSV)
+                    .forEach(pw::println);
+        }
+
+    }
+    private String convertToCSV(String[] data) {
+        return Stream.of(data)
+                .map(this::escapeSpecialCharacters)
+                .collect(Collectors.joining(","));
+    }
+    public boolean runCSVReport(Map<String,Object> inputMap,String csvFileLocation){
+        try {
+              File csvFile = new File(csvFileLocation);
+               List<GoogleMapSearchItem> googleMapSearchItemList = googleScrapperService.googleMapsSearchV2(inputMap);
+               List<String[]> dataLines = new ArrayList<>();
+               for (GoogleMapSearchItem googleMapSearchItem : googleMapSearchItemList) {
+                    List<String> rowData = new ArrayList<>();
+                    rowData.add(googleMapSearchItem.getName());
+                    rowData.add(googleMapSearchItem.getFull_address());
+                    rowData.add(googleMapSearchItem.getPhone());
+                    rowData.add(googleMapSearchItem.getPostal_code());
+                    rowData.add(String.valueOf(googleMapSearchItem.getRating()));
+                    dataLines.add(rowData.stream().toArray(String[]::new));
+                }
+              printToCSV(dataLines,csvFile);
         }catch(Exception ex){
             log.error(CommonUtils.getExceptionMessage(ex));
         }

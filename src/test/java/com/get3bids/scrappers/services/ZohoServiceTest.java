@@ -17,8 +17,8 @@ import java.util.HashMap;
 public class ZohoServiceTest {
     @Autowired
     ZohoService zohoService;
-    public static final String GOOGLE_MAPS_SEARCH_QUERY = "roof contractors in florida";
-    public static final int GOOGLE_MAPS_SEARCH_RECORD_LIMIT = 1;
+    public static final String GOOGLE_MAPS_SEARCH_QUERY = "roof contractors in south florida";
+    public static final int GOOGLE_MAPS_SEARCH_RECORD_LIMIT = 1000;
     public static final int GOOGLE_MAPS_SEARCH_REVIEW_LIMIT = 20;
 
     @Test
@@ -31,6 +31,20 @@ public class ZohoServiceTest {
                 put("language", "en");
             }};
             zohoService.runJob(inputMap);
+        }catch(Exception ex){
+            log.error(CommonUtils.getExceptionMessage(ex));
+        }
+    }
+    @Test
+    public void runCSVReportTest(){
+        try {
+            HashMap inputMap = new HashMap<String, Object>() {{
+                put("query", GOOGLE_MAPS_SEARCH_QUERY);
+                put("reviewsLimit", GOOGLE_MAPS_SEARCH_REVIEW_LIMIT);
+                put("limit", GOOGLE_MAPS_SEARCH_RECORD_LIMIT);
+                put("language", "en");
+            }};
+            zohoService.runCSVReport(inputMap,"/Users/georgepeter/Downloads/south_florida_roofing_result.csv");
         }catch(Exception ex){
             log.error(CommonUtils.getExceptionMessage(ex));
         }
